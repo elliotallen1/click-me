@@ -11,7 +11,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Click Me',
       theme: ThemeData(
         // This is the theme of your application.
         //
@@ -28,10 +28,10 @@ class MyApp extends StatelessWidget {
         //
         // This works for code too, not just values: Most code changes can be
         // tested with just a hot reload.
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: ColorScheme.fromSeed(seedColor: const Color.fromARGB(255, 143, 90, 0)),
         useMaterial3: true,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: const MyHomePage(title: 'Terrible Calculator'),
     );
   }
 }
@@ -55,7 +55,8 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
+  double _counter = 0;
+  double _currentSliderValue = 0;
 
   void _incrementCounter() {
     setState(() {
@@ -64,7 +65,25 @@ class _MyHomePageState extends State<MyHomePage> {
       // so that the display can reflect the updated values. If we changed
       // _counter without calling setState(), then the build method would not be
       // called again, and so nothing would appear to happen.
-      _counter++;
+      _counter+=_currentSliderValue;
+    });
+  }
+
+  void _decrementCounter() {
+    setState(() {
+      _counter-=_currentSliderValue;
+    });
+  }
+
+  void _multiplyCounter() {
+    setState(() {
+      _counter*=_currentSliderValue;
+    });
+  }
+
+  void _resetCounter() {
+    setState(() {
+      _counter=0;
     });
   }
 
@@ -106,20 +125,36 @@ class _MyHomePageState extends State<MyHomePage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             const Text(
-              'You have pushed the button this many times:',
+              'Use the slider to add or subtract from the total:',
             ),
             Text(
-              '$_counter',
+              _counter.round().toString(),
               style: Theme.of(context).textTheme.headlineMedium,
             ),
+            Slider(
+              value: _currentSliderValue,
+              max: 100,
+              divisions: 100,
+              label: _currentSliderValue.round().toString(),
+              onChanged: (double value) {
+                setState(() {
+                  _currentSliderValue = value;
+                  }
+                );
+              }
+            ),
+            Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: <Widget>[
+              ElevatedButton(onPressed: _multiplyCounter, onHover: (val){} ,child: const Icon(Icons.close)),
+              ElevatedButton(onPressed: _decrementCounter, child: const Icon(Icons.remove)),
+              ElevatedButton(onPressed: _incrementCounter, child: const Icon(Icons.add))
+          ]
+          )
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+      floatingActionButton: FloatingActionButton(onPressed: _resetCounter, child: const Icon(Icons.restart_alt_rounded)),
     );
   }
 }
