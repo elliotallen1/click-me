@@ -125,7 +125,7 @@ class _MyHomePageState extends State<MyHomePage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             const Text(
-              'Use the slider to add or subtract from the total:',
+              'Use the slider to multiply, subtract, or add from the total:',
             ),
             Text(
               _counter.round().toString(),
@@ -146,7 +146,7 @@ class _MyHomePageState extends State<MyHomePage> {
             Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
-              ElevatedButton(onPressed: _multiplyCounter, onHover: (val){} ,child: const Icon(Icons.close)),
+              ElevatedButton(onPressed: _multiplyCounter,child: const Icon(Icons.close)),
               ElevatedButton(onPressed: _decrementCounter, child: const Icon(Icons.remove)),
               ElevatedButton(onPressed: _incrementCounter, child: const Icon(Icons.add))
           ]
